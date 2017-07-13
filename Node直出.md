@@ -320,7 +320,7 @@ Handlebars 见[Handlebars](https://github.com/wycats/handlebars.js)
 
 浅谈模板引擎原理 见[http://www.cnblogs.com/dojo-lzz/p/5518474.html](http://www.cnblogs.com/dojo-lzz/p/5518474.html)
 
-# DEMO列子来证明
+#直出DEMO
 
 #总结
 
