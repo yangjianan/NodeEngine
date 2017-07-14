@@ -28,7 +28,7 @@ create by yangjianan 7/8/2017
 
 这种处理形式应该占据大多数，然而也很容易发现一个问题就是请求数多，前后依赖大，如必须等待 JS 加载完成后执行时才会发起数据请求，等待数据回来用户才可以展示最终页面，这种强依赖的关系使得整个应用的首屏渲染耗时增加不少。
 
-> #模式 2 - 数据直出
+> # 模式 2 - 数据直出
 
 在模式 1 中，第 1 点用户输入 url 时 server 端不做其他处理直接返回 html ，在第 4 点向 server 请求获取数据。那么，同样都是向 server 请求获取，如果在第 1 点中将请求数据放在 server 上，将拿到的数据拼接到 HTML 上一并返回，那么可减少在前端页面上的一次数据请求时间。 这就是模式 2 - 数据直出所做的事，处理方式也很简单
 
@@ -40,7 +40,7 @@ create by yangjianan 7/8/2017
 
 ![](https://raw.githubusercontent.com/yangjianan/NodeEngine/master/image/%E6%A8%A1%E5%BC%8F2.png)
 
-###经典的jsp列子：
+### 经典的jsp列子：
 
 ![](https://raw.githubusercontent.com/yangjianan/NodeEngine/master/image/01.png)
 
@@ -52,7 +52,7 @@ create by yangjianan 7/8/2017
 
 模式2与模式1 相比，这种模式减少了请求数据。这块差距有多少呢？
 
-###发起一个 HTTP 的网络请求过程
+### 发起一个 HTTP 的网络请求过程
 
     DNS解析（100~200ms可以缓存）
          |
@@ -67,13 +67,13 @@ create by yangjianan 7/8/2017
 
 注: RTT 为 Round-trip time 缩写，表示一个数据包从发出到返回所用的时间。
 
-###数据请求在前端和后端发出，差距有多少？
+### 数据请求在前端和后端发出，差距有多少？
 
 由上面对 HTTP 的网络请求过程可看到建立一次完整的请求返回在耗时上明显的，特别是外网用户在进行 HTTP 请求时，由于网络等因素的影响，在网络连接及传输上将花费很多时间。而在服务端进行数据拉取，即使同样是 HTTP 请求，由于后端之间是处于同一个内网上的，所以传输十分高效，这是差距来源的大头，是优化的刚需。
 
 #在模式2寻求优化？
 
-> #模式 3 - 直出 (服务端渲染)
+> # 模式 3 - 直出 (服务端渲染)
 
 ### Node直出是什么？
 
@@ -105,11 +105,11 @@ create by yangjianan 7/8/2017
 
 ### 既然是后端渲染，就需要模板引擎，有哪些？
 
-###1.art-Template
+### 1.art-Template
 
 > art-template 是一个简约、超快的模板引擎。它采用作用域预声明的技术来优化模板渲染速度，从而获得接近 JavaScript 极限的运行性能。
 
-####index.js:
+#### index.js:
 
 	var artTemplate = require("express-art-template");
 	var express = require("express");
@@ -143,7 +143,7 @@ create by yangjianan 7/8/2017
 	//监听3000端口
 	app.listen(3000);
 
-####template.art:
+#### template.art:
 
 	<!DOCTYPE html>
 	<html>
@@ -170,11 +170,11 @@ create by yangjianan 7/8/2017
 
 artTemplate 见[artTemplate](https://aui.github.io/art-template/docs/)
 
-###2. ejs
+### 2. ejs
 
 > ejs因为其简单的语法结构，与 express 集成良好，是目前用的最广泛的nodejs模版引擎，功能齐全，各方面中规中矩，主要是代码干净整洁，更让人上手易懂。
 
-####index.js:
+#### index.js:
 
 	var express = require("express");
 	var app = express();
@@ -200,7 +200,7 @@ artTemplate 见[artTemplate](https://aui.github.io/art-template/docs/)
 	//监听3000端口
 	app.listen(3000);
 
-####template.ejs:
+#### template.ejs:
 	
 	<!DOCTYPE html>
 	<html>
@@ -221,13 +221,13 @@ artTemplate 见[artTemplate](https://aui.github.io/art-template/docs/)
 
 ejs 见[ejs](https://github.com/tj/ejs)
 
-###3. jade
+### 3. jade
 
 > Jade主要是面向后端开发人员，它能以最少的代码量最快的速度构建出一个像模像样的网页架构。如果你是一个全栈开发人员（偏向后端），自己动手丰衣足食，并且不会有其他前端人员来维护你的页面，你可以尝试一下jade，它可以使你的开发效率有质的飞跃！
 
 [jade基础语法](http://dtop.powereasy.net/Item/3832.aspx)
 
-####index.js:
+#### index.js:
 
 	var express = require("express");
 	var app = express();
@@ -253,7 +253,7 @@ ejs 见[ejs](https://github.com/tj/ejs)
 	//监听3000端口
 	app.listen(3000);
 
-####template.jade:
+#### template.jade:
 
 	html
 		head
@@ -268,11 +268,11 @@ ejs 见[ejs](https://github.com/tj/ejs)
 		
 jade 见[jade](https://github.com/pugjs/pug)
 
-###4. Handlebars
+### 4. Handlebars
 
 > handlebars作为一个非常轻量级的模板引擎，单纯从模板这个功能上看，他的前后端通用性强，命令简单明了，代码可读性强。如果应用不是很大，推荐使用。
 
-####index.js:
+#### index.js:
 	
 	var express = require("express");
 	var app = express();
@@ -301,7 +301,7 @@ jade 见[jade](https://github.com/pugjs/pug)
 	//监听3000端口
 	app.listen(3000);
 
-####template.hbs:
+#### template.hbs:
 
 	<!DOCTYPE html>
 	<html>
@@ -322,15 +322,15 @@ jade 见[jade](https://github.com/pugjs/pug)
 
 Handlebars 见[Handlebars](https://github.com/wycats/handlebars.js)
 
-###各个模板引擎性能对比图
+### 各个模板引擎性能对比图
 
 ![](https://raw.githubusercontent.com/yangjianan/NodeEngine/master/image/03.png)
 
 浅谈模板引擎原理 见[http://www.cnblogs.com/dojo-lzz/p/5518474.html](http://www.cnblogs.com/dojo-lzz/p/5518474.html)
 
-#直出DEMO
+# 直出DEMO
 
-#总结
+# 总结
 
 Node直出能够将常用模式优化到剩下了一次 HTML 请求，加快首屏渲染时间，使用服务端渲染，还能够优化前端渲染难以克服的 SEO 问题。而不管是简单的 数据直出 或是 服务端渲染直出 都能使页面的性能优化得到较大提高。
 
